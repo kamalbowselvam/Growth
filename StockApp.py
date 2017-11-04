@@ -39,6 +39,9 @@ class MainWindow(QMainWindow):
         self.Hbox2.addWidget(self.removeStockButton)      
         
         self.stocksList = DragListWidget(self)   # A draggable listwidget
+        self.stocksList.addItem("AAPL")
+        self.stocksList.addItem("GOOGL")
+        self.stocksList.addItem("AMZN")
         self.stocksList.setFixedWidth(200)
         
         self.Vbox2.addWidget(self.stocksList)
