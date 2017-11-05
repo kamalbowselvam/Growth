@@ -12,6 +12,7 @@ from PyQt4 import QtCore
 from gettingStockDialog import *
 from draggableListWidget import *
 from plotterWidget import *
+from plotterWidgetMat import *
 import sys
 
 
@@ -39,6 +40,9 @@ class MainWindow(QMainWindow):
         self.Hbox2.addWidget(self.removeStockButton)      
         
         self.stocksList = DragListWidget(self)   # A draggable listwidget
+        self.stocksList.addItem("AAPL")
+        self.stocksList.addItem("GOOGL")
+        self.stocksList.addItem("AMZN")
         self.stocksList.setFixedWidth(200)
         
         self.Vbox2.addWidget(self.stocksList)
@@ -53,7 +57,7 @@ class MainWindow(QMainWindow):
         self.Hbox1.addLayout(self.Vbox2)
         self.Vbox1.addLayout(self.Hbox1)    
         
-        self.pwidget = plotWidget(self)      #A plotWidget that where you can drop the Stock Symbol
+        self.pwidget = MatPlotWidget(self)      #A plotWidget that where you can drop the Stock Symbol
         self.Hbox1.addWidget(self.pwidget)   
         self.mainWidget.setLayout(self.Vbox1)
         self.setCentralWidget(self.mainWidget)
