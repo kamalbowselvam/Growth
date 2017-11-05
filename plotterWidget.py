@@ -32,13 +32,15 @@ class plotWidget(QWidget):
         self.setLayout(self.lay)
               
         
-    def plot(self):
+    def plot(self,pdDataFrame):
         ''' plot some random stuff '''
+        x1 = pdDataFrame.index
+        y1 = pdDataFrame['Close']
         x = np.linspace(0, 100, 1000)
        
         y = (np.random.rand(len(x))-0.5).cumsum()
     
-        curve = make.curve(x, y, "ab", "b")
+        curve = make.curve(x1, y1, "ab", "b")
         range = make.range(0, 5)
         
         disp2 = make.computations(range, "TL",
@@ -46,8 +48,8 @@ class plotWidget(QWidget):
                                    (curve, "max=%.5f", lambda x,y: y.max()),
                                    (curve, "avg=%.5f", lambda x,y: y.mean())])
         legend = make.legend("TR")
-        items = [ curve, range, disp2, legend]
-        
+#        items = [ curve, range, disp2, legend]
+        items = [curve]        
         
         self.plotw = self.gWindow.get_plot()
         for item in items:
@@ -64,11 +66,14 @@ class plotWidget(QWidget):
 
         
     def dropEvent(self, event):     #Defininf the Drop Event 
-#        stockSymbol = event.mimeData().text()       #Getting MimeData Text, this text is set in DragableListWidget
-#        print stockSymbol
+        stockSymbol = event.mimeData().text()       #Getting MimeData Text, this text is set in DragableListWidget
+        print stockSymbol
         if event.mimeData().hasFormat("+Stock+"):   #Checking if the dropped item is a stock 
-            print "Hello"                  #Plotting the StockSymbol
-            self.plot()
+                                    #Plotting the StockSymbol
+            print stockSymbol
+            stockData = stockDataCollector("AAPL")
+            pdDataFrame = stockData._getStockdata()
+            self.plot(pdDataFrame)
         else:
             event.ignore()
 
